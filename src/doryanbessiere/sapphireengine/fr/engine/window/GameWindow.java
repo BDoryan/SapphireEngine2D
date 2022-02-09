@@ -6,7 +6,7 @@ import doryanbessiere.sapphireengine.fr.engine.IGameBase;
 import doryanbessiere.sapphireengine.fr.engine.controller.KeyController;
 import doryanbessiere.sapphireengine.fr.engine.controller.MouseController;
 import doryanbessiere.sapphireengine.fr.engine.exceptions.WindowCannotBeCreatedException;
-import doryanbessiere.sapphireengine.fr.game.Game;
+import doryanbessiere.sapphireengine.fr.engine.game.Game;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
@@ -135,7 +135,9 @@ public class GameWindow implements IGameBase {
 
         glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+    }
 
+    public void swapBuffers(){
         glfwSwapBuffers(id);
     }
 

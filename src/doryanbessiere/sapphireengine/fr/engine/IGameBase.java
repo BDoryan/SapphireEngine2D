@@ -1,7 +1,7 @@
 package doryanbessiere.sapphireengine.fr.engine;
 
 import doryanbessiere.sapphireengine.fr.commons.logger.Logger;
-import doryanbessiere.sapphireengine.fr.game.Game;
+import doryanbessiere.sapphireengine.fr.engine.game.Game;
 
 public interface IGameBase extends IBuilder {
 

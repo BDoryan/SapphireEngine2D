@@ -1,14 +1,13 @@
 package doryanbessiere.sapphireengine.fr.engine;
 
+import doryanbessiere.sapphireengine.fr.commons.Time;
 import doryanbessiere.sapphireengine.fr.commons.Tools;
 import doryanbessiere.sapphireengine.fr.commons.logger.Logger;
 import doryanbessiere.sapphireengine.fr.commons.logger.exceptions.ExceptionManager;
-import doryanbessiere.sapphireengine.fr.engine.controller.KeyController;
-import doryanbessiere.sapphireengine.fr.engine.controller.MouseController;
 import doryanbessiere.sapphireengine.fr.engine.exceptions.WindowCannotBeCreatedException;
+import doryanbessiere.sapphireengine.fr.engine.scene.Scene;
 import doryanbessiere.sapphireengine.fr.engine.window.GameWindow;
-import doryanbessiere.sapphireengine.fr.game.Game;
-import org.lwjgl.glfw.GLFW;
+import doryanbessiere.sapphireengine.fr.engine.game.Game;
 
 import java.io.File;
 
@@ -36,24 +35,44 @@ public class GameEngine implements IGameBase, IEngine {
     }
 
     private void loop(){
-        while(!gameWindow.shouldClose()){
-            update();
-            render();
+        float beginTime = Time.getTime();
+        float endTime = Time.getTime();
+        float dt = -1;
 
+        while(!gameWindow.shouldClose()){
             gameWindow.update();
+
+            if(dt >= 0)
+                update(dt);
+
+            gameWindow.swapBuffers();
+
+            endTime = Time.getTime();
+            dt = endTime - beginTime;
+            beginTime = endTime;
+
+            render();
         }
         getLogger().debug("Game loop finish.");
 
         gameWindow.destroy();
     }
 
+    private Scene scene = null;
+
+    public void setScene(Scene scene) {
+        this.scene = scene;
+        this.scene.init();
+    }
+
     @Override
-    public void update() {
+    public void update(float dt) {
+        if(scene != null)scene.update(dt);
     }
 
     @Override
     public void render() {
-
+        if(scene != null)scene.render();
     }
 
     @Override

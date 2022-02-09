@@ -1,4 +1,4 @@
-package doryanbessiere.sapphireengine.fr.game;
+package doryanbessiere.sapphireengine.fr.engine.game;
 
 import doryanbessiere.sapphireengine.fr.commons.logger.Logger;
 import doryanbessiere.sapphireengine.fr.commons.logger.exceptions.ExceptionListener;
