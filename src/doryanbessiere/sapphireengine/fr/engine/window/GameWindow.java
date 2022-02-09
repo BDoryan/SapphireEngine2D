@@ -3,13 +3,13 @@ package doryanbessiere.sapphireengine.fr.engine.window;
 import doryanbessiere.sapphireengine.fr.commons.logger.Logger;
 import doryanbessiere.sapphireengine.fr.engine.GameEngine;
 import doryanbessiere.sapphireengine.fr.engine.IGameBase;
+import doryanbessiere.sapphireengine.fr.engine.controller.KeyController;
+import doryanbessiere.sapphireengine.fr.engine.controller.MouseController;
 import doryanbessiere.sapphireengine.fr.engine.exceptions.WindowCannotBeCreatedException;
 import doryanbessiere.sapphireengine.fr.game.Game;
 import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWErrorCallbackI;
 import org.lwjgl.opengl.GL;
 
-import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,27 +59,36 @@ public class GameWindow implements IGameBase {
     private void init() throws WindowCannotBeCreatedException {
         GLFWErrorCallback.createPrint(System.err).set();
 
+        gameEngine.getLogger().debug("Initialize GLFW...");
         if(!glfwInit()){
             throw new WindowCannotBeCreatedException("unable to initialize the module GLFW.");
         }
 
+        gameEngine.getLogger().debug("Application of the default hints");
         glfwDefaultWindowHints();
 
+        gameEngine.getLogger().debug("Application of the window hints");
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, resizable ? GLFW_TRUE : GLFW_FALSE);
         glfwWindowHint(GLFW_MAXIMIZED, maximized ? GLFW_TRUE : GLFW_FALSE);
 
+        gameEngine.getLogger().debug("Application of the custom hints");
         if(customHints().size() > 0){
             for(Map.Entry<Integer, Integer> hints : customHints().entrySet()){
                 glfwWindowHint(hints.getKey(), hints.getValue());
             }
         }
 
+        gameEngine.getLogger().debug("Window creation in progress...");
         id = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
         if(id == NULL){
             throw new WindowCannotBeCreatedException("failed to create window");
         }
 
+        gameEngine.getLogger().debug("Applying controllers to the window...");
+        initControllers();
+
+        gameEngine.getLogger().debug("Making the window context...");
         glfwMakeContextCurrent(id);
         // V-SYNC
         glfwSwapInterval(1);
@@ -87,6 +96,30 @@ public class GameWindow implements IGameBase {
         glfwShowWindow(id);
 
         GL.createCapabilities();
+        gameEngine.getLogger().debug("Window display.");
+    }
+
+    private void initControllers() {
+        initKeyController();
+        initMouseController();
+    }
+
+    private void initKeyController(){
+        glfwSetKeyCallback(id, (id, key, scancode, action, mods) -> {
+            KeyController.keyCallback(this, key, scancode, action, mods);
+        });
+    }
+
+    private void initMouseController(){
+        glfwSetCursorPosCallback(id, (id, x, y) -> {
+            MouseController.mouseMoveCallback(this, x, y);
+        });
+        glfwSetMouseButtonCallback(id, (id, button, action, mods) -> {
+            MouseController.mouseButtonCallback(this, button, action, mods);
+        });
+        glfwSetScrollCallback(id, (id, x, y) -> {
+            MouseController.mouseScrollCallback(this, x, y);
+        });
     }
 
     public HashMap<Integer, Integer> customHints(){
@@ -104,6 +137,13 @@ public class GameWindow implements IGameBase {
         glClear(GL_COLOR_BUFFER_BIT);
 
         glfwSwapBuffers(id);
+    }
+
+    public void destroy(){
+        glfwDestroyWindow(id);
+
+        glfwSetErrorCallback(null).set();
+        glfwTerminate();
     }
 
     public GameEngine getGameEngine() {
