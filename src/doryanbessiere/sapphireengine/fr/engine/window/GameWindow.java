@@ -42,6 +42,9 @@ public class GameWindow implements IGameBase {
         this.maximized = maximized;
         this.resizable = resizable;
     }
+    @Override
+    public void initialize() {
+    }
 
     /**
      * This method is used to launch the construction of the window and at the same time its display
@@ -49,7 +52,6 @@ public class GameWindow implements IGameBase {
      *
      * @throws WindowCannotBeCreatedException The construction of the window can go wrong, hence the interest of being warned with an exception
      */
-    @Override
     public void build() throws WindowCannotBeCreatedException {
         gameEngine.getLogger().debug("Starting the game window...");
 

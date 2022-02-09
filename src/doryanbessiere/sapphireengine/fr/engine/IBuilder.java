@@ -4,6 +4,6 @@ import doryanbessiere.sapphireengine.fr.engine.exceptions.WindowCannotBeCreatedE
 
 public interface IBuilder {
 
-    public abstract void build() throws WindowCannotBeCreatedException;
+    public abstract void initialize();
 
 }

@@ -41,9 +41,9 @@ public class Game implements IBuilder {
     }
 
     @Override
-    public void build(){
+    public void initialize(){
         logger.log("Starting the game...");
-        this.gameEngine.build();
+        this.gameEngine.initialize();
     }
 
     public GameEngine getGameEngine() {

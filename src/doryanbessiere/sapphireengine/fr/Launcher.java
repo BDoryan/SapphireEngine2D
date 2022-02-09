@@ -13,14 +13,19 @@ public class Launcher extends Game {
     }
 
     @Override
-    public void build() {
-        super.build();
+    public void initialize() {
+        super.initialize();
 
-        getGameEngine().setScene(new LevelEditorScene());
+        getGameEngine().setScene(new LevelEditorScene(this));
+        start();
+    }
+
+    public void start() {
+        getGameEngine().start();
     }
 
     public static void main(String[] args) {
-        LAUNCHER.build();
+        LAUNCHER.initialize();
     }
 
     public static Logger getGameLogger(){

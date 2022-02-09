@@ -22,16 +22,19 @@ public class GameEngine implements IGameBase, IEngine {
     }
 
     @Override
-    public void build(){
+    public void initialize(){
         getLogger().debug("Starting the game engine...");
 
         try {
             this.gameWindow.build();
             getLogger().debug("Starting the game loop.");
-            this.loop();
         } catch (WindowCannotBeCreatedException e){
             ExceptionManager.pushException(e);
         }
+    }
+
+    public void start(){
+        this.loop();
     }
 
     private void loop(){
@@ -62,7 +65,7 @@ public class GameEngine implements IGameBase, IEngine {
 
     public void setScene(Scene scene) {
         this.scene = scene;
-        this.scene.init();
+        this.scene.initialize();
     }
 
     @Override
