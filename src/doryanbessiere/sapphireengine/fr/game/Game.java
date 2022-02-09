@@ -6,7 +6,6 @@ import doryanbessiere.sapphireengine.fr.commons.logger.exceptions.ExceptionManag
 import doryanbessiere.sapphireengine.fr.commons.logger.file.LoggerFile;
 import doryanbessiere.sapphireengine.fr.engine.GameEngine;
 import doryanbessiere.sapphireengine.fr.engine.IBuilder;
-import doryanbessiere.sapphireengine.fr.engine.IEngine;
 
 import java.io.File;
 

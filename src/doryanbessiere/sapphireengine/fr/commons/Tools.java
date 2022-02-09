@@ -1,4 +1,4 @@
-package doryanbessiere.sapphireengine.fr.commons.logger;
+package doryanbessiere.sapphireengine.fr.commons;
 
 import doryanbessiere.sapphireengine.fr.commons.logger.exceptions.ExceptionManager;
 
