@@ -1,5 +1,6 @@
 package doryanbessiere.sapphireengine.fr;
 
+import doryanbessiere.sapphireengine.fr.commons.logger.Logger;
 import doryanbessiere.sapphireengine.fr.game.Game;
 
 public class Launcher extends Game {
@@ -12,5 +13,9 @@ public class Launcher extends Game {
 
     public static void main(String[] args) {
         LAUNCHER.build();
+    }
+
+    public static Logger getGameLogger(){
+        return LAUNCHER.getLogger();
     }
 }
