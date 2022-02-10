@@ -93,7 +93,7 @@ public class GameWindow implements IGameBase {
         gameEngine.getLogger().debug("Making the window context...");
         glfwMakeContextCurrent(id);
         // V-SYNC
-        glfwSwapInterval(1);
+        //glfwSwapInterval(1);
 
         glfwShowWindow(id);
 
@@ -135,7 +135,7 @@ public class GameWindow implements IGameBase {
     public void update() {
         glfwPollEvents();
 
-        glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+        glClearColor(1f, 1f, 1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
     }
 

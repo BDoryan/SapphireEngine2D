@@ -37,24 +37,44 @@ public class GameEngine implements IGameBase, IEngine {
         this.loop();
     }
 
+    private int maximumUPS = 60;
+    private int maximumFPS = 60;
+
     private void loop(){
-        float beginTime = Time.getTime();
-        float endTime = Time.getTime();
-        float dt = -1;
+        long initialTime = System.nanoTime();
+        double deltaU = 0, deltaF = 0;
+        int frames = 0, ticks = 0;
+        long timer = System.currentTimeMillis();
 
-        while(!gameWindow.shouldClose()){
-            gameWindow.update();
+        while (!gameWindow.shouldClose()) {
+            final double timeU = 1000000000 / maximumUPS;
+            final double timeF = 1000000000 / maximumFPS;
 
-            if(dt >= 0)
-                update(dt);
+            long currentTime = System.nanoTime();
+            deltaU += (currentTime - initialTime) / timeU;
+            deltaF += (currentTime - initialTime) / timeF;
+            initialTime = currentTime;
 
-            gameWindow.swapBuffers();
+            if (deltaU >= 1) {
+                update((float)deltaU);
+                ticks++;
+                deltaU = 0;
+            }
 
-            endTime = Time.getTime();
-            dt = endTime - beginTime;
-            beginTime = endTime;
+            if (deltaF >= 1) {
+                gameWindow.update();
+                render();
+                gameWindow.swapBuffers();
+                frames++;
+                deltaF = 0;
+            }
 
-            render();
+            if (System.currentTimeMillis() - timer > 1000) {
+                    System.out.println(String.format("UPS: %s, FPS: %s", ticks, frames));
+                frames = 0;
+                ticks = 0;
+                timer += 1000;
+            }
         }
         getLogger().debug("Game loop finish.");
 
